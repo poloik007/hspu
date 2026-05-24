@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>HSPU Project</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body, html { background: #0a0e1a; font-family: 'Outfit', -apple-system, sans-serif; color: #e2e8f0; }
+  .display { font-family: 'Anton', 'Outfit', sans-serif; letter-spacing: 0.02em; }
+  ::-webkit-scrollbar { height: 0; width: 0; }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .app { min-height: 100vh; background: linear-gradient(180deg, #0a0e1a 0%, #0f172a 100%); padding-bottom: 40px; }
+
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.15);
+    position: sticky; top: 0; z-index: 30;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .title { font-size: 28px; color: #fbbf24; line-height: 1; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #64748b; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .header-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #cbd5e1; border-radius: 8px; padding: 8px 10px; font-size: 14px;
+    display: flex; align-items: center; gap: 4px; transition: all 0.15s;
+  }
+  .icon-btn.danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #ef4444; }
+  .icon-btn:active { transform: scale(0.95); }
+
+  .progress-section { margin-bottom: 16px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .progress-label { font-size: 11px; color: #94a3b8; letter-spacing: 0.1em; }
+  .progress-pct { font-size: 20px; color: #fbbf24; }
+  .progress-bar { height: 6px; background: rgba(251, 191, 36, 0.1); border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 999px; transition: width 0.4s ease;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+  }
+
+  .week-tabs { overflow-x: auto; display: flex; gap: 8px; padding: 4px; margin: 0 -4px -4px; }
+  .week-tab {
+    flex-shrink: 0; min-width: 62px;
+    padding: 8px 4px 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    color: #e2e8f0;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    position: relative; transition: all 0.2s;
+  }
+  .week-tab.active { color: #0a0e1a; }
+  .week-tab:active { transform: scale(0.95); }
+  .tab-label { font-size: 9px; opacity: 0.8; letter-spacing: 0.05em; }
+  .tab-num { font-size: 18px; line-height: 1; }
+  .tab-pct { font-size: 9px; font-weight: 600; opacity: 0.6; }
+  .week-tab.active .tab-pct { opacity: 0.9; }
+  .trophy { position: absolute; top: 4px; right: 4px; font-size: 10px; }
+
+  .content { padding: 20px 16px 0; }
+
+  .phase-badge {
+    display: inline-block; padding: 6px 12px;
+    border-radius: 999px; font-size: 11px;
+    letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase;
+    margin-right: 10px;
+  }
+  .phase-info { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .phase-meta { font-size: 12px; color: #64748b; }
+
+  .week-title { font-size: 42px; color: #f8fafc; line-height: 1; margin-bottom: 4px; }
+  .week-meta { font-size: 13px; color: #94a3b8; margin-bottom: 24px; }
+
+  .days { display: flex; flex-direction: column; gap: 12px; }
+
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .day-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    animation: slideIn 0.3s ease-out backwards;
+  }
+  .day-card.done { border-color: var(--day-color); }
+  .day-stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+
+  .day-header { padding: 14px 16px 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .day-header-left { display: flex; align-items: baseline; gap: 12px; }
+  .day-name { font-size: 22px; line-height: 1; }
+  .day-focus { font-size: 13px; color: #cbd5e1; font-weight: 500; }
+  .star { color: #fbbf24; font-size: 14px; }
+  .day-count {
+    font-size: 11px; color: #64748b; font-weight: 600;
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .day-count.done-count { color: var(--day-color); background: color-mix(in srgb, var(--day-color) 15%, transparent); }
+
+  .rest-text { padding: 0 20px 16px; font-size: 13px; color: #64748b; font-style: italic; }
+
+  .ex-row {
+    padding: 12px 16px 12px 20px;
+    display: flex; align-items: center; gap: 12px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+  .ex-row:hover { background: rgba(255,255,255,0.03); }
+
+  .checkbox {
+    background: none; border: none; padding: 0;
+    color: #475569; display: flex; align-items: center;
+    width: 28px; height: 28px; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .checkbox.checked { color: var(--day-color); }
+  .checkbox:active { transform: scale(0.9); }
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  .checkbox.popping { animation: pop 0.3s ease; }
+  .checkbox svg { width: 26px; height: 26px; }
+
+  .ex-info { flex: 1; min-width: 0; }
+  .ex-name { font-size: 14px; color: #e2e8f0; font-weight: 500; line-height: 1.3; }
+  .ex-name.checked { color: #64748b; text-decoration: line-through; }
+  .ex-reps { font-size: 12px; color: #64748b; margin-top: 2px; font-weight: 600; }
+
+  .video-btn {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+    border-radius: 8px;
+    padding: 7px 10px;
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600;
+    opacity: 0.85; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .video-btn:active { transform: scale(0.92); }
+
+  .nav { display: flex; gap: 10px; margin-top: 24px; }
+  .nav-btn {
+    flex: 1; padding: 14px; border-radius: 12px;
+    font-size: 13px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04); color: #cbd5e1;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+  }
+  .nav-btn.next {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border: none; color: #0a0e1a; font-weight: 700;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(16, 185, 129, 0.15); color: #10b981;
+    padding: 6px 14px; border-radius: 999px; font-size: 11px;
+    border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 600;
+    animation: pulse 1s infinite; z-index: 50;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .toast.show { opacity: 1; }
+
+  .menu-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100;
+    display: none; align-items: flex-end; justify-content: center;
+  }
+  .menu-backdrop.open { display: flex; }
+  .menu {
+    background: #1e293b; border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 500px; padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .menu-title { font-size: 18px; color: #fbbf24; margin-bottom: 14px; }
+  .menu-btn {
+    width: 100%; text-align: left; padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #e2e8f0; border-radius: 12px;
+    font-size: 14px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .menu-btn.danger { color: #ef4444; border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05); }
+  .menu-btn-icon { font-size: 18px; }
+  .menu-close {
+    width: 100%; padding: 12px;
+    background: transparent; border: none;
+    color: #94a3b8; font-size: 13px; margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast">✓ Salvo</div>
+<div id="menu" class="menu-backdrop" onclick="closeMenu(event)">
+  <div class="menu" onclick="event.stopPropagation()">
+    <div class="menu-title">Opções</div>
+    <button class="menu-btn" onclick="exportData()">
+      <span class="menu-btn-icon">📥</span> Exportar progresso (backup)
+    </button>
+    <button class="menu-btn" onclick="document.getElementById('import-file').click()">
+      <span class="menu-btn-icon">📤</span> Importar progresso
+    </button>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+    <button class="menu-btn danger" onclick="resetAll()">
+      <span class="menu-btn-icon">🗑️</span> Resetar tudo
+    </button>
+    <button class="menu-close" onclick="closeMenu()">Fechar</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'hspu-progress-v1';
+const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent('como fazer ' + q)}`;
+
+const EX = {
+  flex: { n: 'Flexão tradicional', v: yt('flexão tradicional') },
+  flexD: { n: 'Flexão diamante', v: yt('flexão diamante tríceps') },
+  merg: { n: 'Mergulho em cadeira', v: yt('mergulho em cadeira tríceps') },
+  prancha: { n: 'Prancha', v: yt('prancha abdominal') },
+  hollow: { n: 'Hollow hold', v: yt('hollow hold abdomen') },
+  deadBug: { n: 'Dead bug', v: yt('dead bug exercício') },
+  mc: { n: 'Mountain climber', v: yt('mountain climber') },
+  pike: { n: 'Pike push-up', v: yt('pike push up') },
+  pikeE: { n: 'Pike push-up pés elevados', v: yt('pike push up pés elevados sofá') },
+  pikePr: { n: 'Pike push-up profundo (cabeça toca chão)', v: yt('deep pike push up') },
+  parPar: { n: 'Parada de mão na parede (costas)', v: yt('parada de mão na parede iniciante') },
+  parParP: { n: 'Parada de mão peito virado pra parede', v: yt('handstand peito virado parede') },
+  negHSPU: { n: 'Negativa de HSPU na parede', v: yt('handstand push up negativa lenta') },
+  hspuL: { n: 'HSPU com livros (amplitude parcial)', v: yt('handstand push up parcial livros') },
+  shoulderTap: { n: 'Prancha com toque no ombro', v: yt('prancha shoulder tap') },
+  parPunho: { n: 'Aquecimento de punhos (2 min)', v: yt('aquecimento punho calistenia') },
+  along: { n: 'Alongamento (ombros, punhos, isquios) — 10 min', v: yt('alongamento ombros punhos mobilidade') },
+  agach: { n: 'Agachamento livre', v: yt('agachamento livre técnica') },
+  afundo: { n: 'Afundo (passada)', v: yt('afundo passada técnica') },
+  bulgaro: { n: 'Búlgaro com cadeira', v: yt('agachamento búlgaro cadeira') },
+  ponte: { n: 'Ponte de glúteo', v: yt('ponte de glúteo') },
+  burpee: { n: 'Burpee', v: yt('burpee técnica') },
+};
+
+function buildWeek(n) {
+  let phase, phaseName, phaseColor;
+  if (n <= 2) { phase = 1; phaseName = 'Fundação'; phaseColor = '#10b981'; }
+  else if (n <= 5) { phase = 2; phaseName = 'Construção'; phaseColor = '#3b82f6'; }
+  else if (n <= 8) { phase = 3; phaseName = 'Força'; phaseColor = '#8b5cf6'; }
+  else { phase = 4; phaseName = 'Conquista'; phaseColor = '#ef4444'; }
+
+  let qua;
+  if (phase === 1) {
+    qua = [
+      { ex: EX.parPunho, r: '2 min' },
+      { ex: EX.pike, r: '3x8' },
+      { ex: EX.shoulderTap, r: '3x10' },
+      { ex: EX.prancha, r: '3x30s' },
+    ];
+  } else if (phase === 2) {
+    qua = [
+      { ex: EX.parPunho, r: '2 min' },
+      { ex: EX.pike, r: `3x${8 + n - 2}` },
+      { ex: EX.parParP, r: '3x20-30s' },
+      { ex: EX.shoulderTap, r: '3x12' },
+    ];
+  } else if (phase === 3) {
+    qua = [
+      { ex: EX.parPunho, r: '2 min' },
+      { ex: EX.pikeE, r: '3x8' },
+      { ex: EX.parPar, r: `3x${30 + (n - 6) * 10}s` },
+      { ex: EX.negHSPU, r: '3x3 (descida lenta)' },
+    ];
+  } else {
+    qua = [
+      { ex: EX.parPunho, r: '2 min' },
+      { ex: EX.hspuL, r: `3x${3 + Math.min(n - 9, 3)}` },
+      { ex: EX.parPar, r: '3x60s' },
+      { ex: EX.pikePr, r: '3x8' },
+    ];
+  }
+
+  const segReps = phase === 1 ? 'máximo' : phase === 2 ? 'máximo +1' : phase === 3 ? 'máximo +3' : 'máximo +5';
+  const flexDiamReps = 8 + (n - 1);
+
+  return {
+    n, phase, phaseName, phaseColor,
+    days: [
+      { day: 'SEG', focus: 'Peito e Tríceps', color: '#ef4444',
+        exs: [
+          { ex: EX.flex, r: `3x ${segReps}` },
+          { ex: EX.flexD, r: `3x${flexDiamReps}` },
+          { ex: EX.merg, r: '3x10-12' },
+        ]},
+      { day: 'TER', focus: 'Core', color: '#f59e0b',
+        exs: [
+          { ex: EX.prancha, r: `3x${40 + (n - 1) * 5}s` },
+          { ex: EX.hollow, r: `3x${20 + (n - 1) * 3}s` },
+          { ex: EX.deadBug, r: '3x10 (cada lado)' },
+          { ex: EX.mc, r: '3x30s' },
+        ]},
+      { day: 'QUA', focus: 'Ombros — FOCO DO OBJETIVO', color: '#8b5cf6', isStar: true, exs: qua },
+      { day: 'QUI', focus: 'Descanso ativo / Mobilidade', color: '#10b981',
+        exs: [{ ex: EX.along, r: '10 min' }]},
+      { day: 'SEX', focus: 'Pernas', color: '#3b82f6',
+        exs: [
+          { ex: EX.agach, r: '3x20' },
+          { ex: EX.afundo, r: '3x10 cada perna' },
+          { ex: EX.bulgaro, r: '3x10 cada perna' },
+          { ex: EX.ponte, r: '3x15' },
+        ]},
+      { day: 'SAB', focus: 'Full body curto', color: '#ec4899',
+        exs: [
+          { ex: EX.burpee, r: '4 rounds: 10 reps' },
+          { ex: EX.agach, r: '4 rounds: 15 reps' },
+          { ex: EX.flex, r: '4 rounds: 10 reps' },
+          { ex: EX.prancha, r: '4 rounds: 30s' },
+        ]},
+      { day: 'DOM', focus: 'Descanso total', color: '#64748b', exs: [] },
+    ]
+  };
+}
+
+const WEEKS = Array.from({ length: 12 }, (_, i) => buildWeek(i + 1));
+
+// State
+let currentWeek = 1;
+let progress = {};
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) progress = JSON.parse(raw);
+  } catch (e) { progress = {}; }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    showToast();
+  } catch (e) { console.error(e); }
+}
+
+let toastTimer;
+function showToast(msg = '✓ Salvo') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1200);
+}
+
+function isChecked(w, di, ei) { return !!progress[`w${w}d${di}e${ei}`]; }
+
+function toggleCheck(w, di, ei, btnEl) {
+  const key = `w${w}d${di}e${ei}`;
+  progress[key] = !progress[key];
+  saveProgress();
+  // Animate
+  if (btnEl) { btnEl.classList.add('popping'); setTimeout(() => btnEl.classList.remove('popping'), 300); }
+  render();
+}
+
+function weekCompletion(w) {
+  const wd = WEEKS[w - 1];
+  let total = 0, done = 0;
+  wd.days.forEach((d, di) => d.exs.forEach((_, ei) => { total++; if (isChecked(w, di, ei)) done++; }));
+  return total === 0 ? 0 : Math.round((done / total) * 100);
+}
+
+function overallCompletion() {
+  const vals = WEEKS.map((_, i) => weekCompletion(i + 1));
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
+function setWeek(n) {
+  currentWeek = n;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openMenu() { document.getElementById('menu').classList.add('open'); }
+function closeMenu(e) {
+  if (e && e.target.id !== 'menu') return;
+  document.getElementById('menu').classList.remove('open');
+}
+
+function resetAll() {
+  if (confirm('Resetar TODO o progresso? Esta ação é permanente.')) {
+    progress = {};
+    saveProgress();
+    closeMenu();
+    render();
+  }
+}
+
+function exportData() {
+  const data = JSON.stringify(progress, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `hspu-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  closeMenu();
+  showToast('📥 Backup baixado');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (typeof data === 'object' && data !== null) {
+        progress = data;
+        saveProgress();
+        closeMenu();
+        render();
+        showToast('📤 Importado!');
+      }
+    } catch (err) {
+      alert('Arquivo inválido');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// Icons (inline SVG)
+const ICON_CHECK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+const ICON_CIRCLE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
+const ICON_PLAY = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+
+function render() {
+  const week = WEEKS[currentWeek - 1];
+  const overall = overallCompletion();
+  const exTotal = week.days.reduce((s, d) => s + d.exs.length, 0);
+
+  const tabsHtml = WEEKS.map(w => {
+    const c = weekCompletion(w.n);
+    const active = currentWeek === w.n;
+    const done = c === 100;
+    const style = active ? `background:${w.phaseColor};border-color:${w.phaseColor};` : '';
+    return `<button class="week-tab ${active ? 'active' : ''}" style="${style}" onclick="setWeek(${w.n})">
+      <div class="tab-label">SEM</div>
+      <div class="tab-num display">${w.n}</div>
+      <div class="tab-pct">${c}%</div>
+      ${done ? '<div class="trophy">🏆</div>' : ''}
+    </button>`;
+  }).join('');
+
+  const daysHtml = week.days.map((d, di) => {
+    const total = d.exs.length;
+    const done = d.exs.filter((_, ei) => isChecked(currentWeek, di, ei)).length;
+    const allDone = total > 0 && done === total;
+
+    const exsHtml = total === 0
+      ? `<div class="rest-text">Recupere. Brinque com as crianças.</div>`
+      : d.exs.map((row, ei) => {
+          const checked = isChecked(currentWeek, di, ei);
+          return `<div class="ex-row">
+            <button class="checkbox ${checked ? 'checked' : ''}" onclick="toggleCheck(${currentWeek},${di},${ei},this)" aria-label="${checked ? 'Desmarcar' : 'Marcar'}">
+              ${checked ? ICON_CHECK : ICON_CIRCLE}
+            </button>
+            <div class="ex-info">
+              <div class="ex-name ${checked ? 'checked' : ''}">${row.ex.n}</div>
+              <div class="ex-reps">${row.r}</div>
+            </div>
+            <a href="${row.ex.v}" target="_blank" rel="noopener" class="video-btn">
+              ${ICON_PLAY} Vídeo
+            </a>
+          </div>`;
+        }).join('');
+
+    return `<div class="day-card ${allDone ? 'done' : ''}" style="--day-color: ${d.color}; animation-delay: ${di * 0.04}s">
+      <div class="day-stripe" style="background:${d.color}"></div>
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-name display" style="color:${d.color}">${d.day}</div>
+          <div class="day-focus">${d.focus}</div>
+          ${d.isStar ? '<span class="star">🔥</span>' : ''}
+        </div>
+        ${total > 0 ? `<div class="day-count ${allDone ? 'done-count' : ''}">${done}/${total}</div>` : ''}
+      </div>
+      ${exsHtml}
+    </div>`;
+  }).join('');
+
+  const navHtml = `<div class="nav">
+    ${currentWeek > 1 ? `<button class="nav-btn" onclick="setWeek(${currentWeek - 1})">← Semana ${currentWeek - 1}</button>` : ''}
+    ${currentWeek < 12 ? `<button class="nav-btn next" onclick="setWeek(${currentWeek + 1})">Semana ${currentWeek + 1} →</button>` : ''}
+  </div>`;
+
+  document.getElementById('app').innerHTML = `
+    <div class="app">
+      <div class="header">
+        <div class="header-top">
+          <div>
+            <div class="title display">HSPU PROJECT</div>
+            <div class="subtitle">Flexão na parada de mão · 12 semanas</div>
+          </div>
+          <div class="header-actions">
+            <button class="icon-btn" onclick="openMenu()" aria-label="Menu">⚙️</button>
+          </div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header">
+            <div class="progress-label">PROGRESSO GERAL</div>
+            <div class="progress-pct display">${overall}%</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${overall}%"></div></div>
+        </div>
+        <div class="week-tabs">${tabsHtml}</div>
+      </div>
+      <div class="content">
+        <div class="phase-info">
+          <div class="phase-badge" style="background:${week.phaseColor}20;border:1px solid ${week.phaseColor}60;color:${week.phaseColor}">
+            Fase ${week.phase} · ${week.phaseName}
+          </div>
+          <div class="phase-meta">Semana ${week.n} de 12</div>
+        </div>
+        <div class="week-title display">SEMANA ${String(week.n).padStart(2, '0')}</div>
+        <div class="week-meta">${weekCompletion(week.n)}% concluído · ${exTotal} exercícios</div>
+        <div class="days">${daysHtml}</div>
+        ${navHtml}
+      </div>
+    </div>
+  `;
+}
+
+loadProgress();
+render();
+
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch((err) => {
+      console.log('SW registration failed:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
