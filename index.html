@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a0e1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>HSPU Project</title>
+<title>Planche Project</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -25,68 +25,90 @@
 
   .header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    padding: 24px 20px 20px;
+    padding: 20px 16px 16px;
     border-bottom: 1px solid rgba(251, 191, 36, 0.15);
     position: sticky; top: 0; z-index: 30;
     backdrop-filter: blur(12px);
   }
 
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-  .title { font-size: 28px; color: #fbbf24; line-height: 1; margin-bottom: 4px; }
-  .subtitle { font-size: 11px; color: #64748b; letter-spacing: 0.15em; text-transform: uppercase; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .title { font-size: 26px; color: #fbbf24; line-height: 1; margin-bottom: 4px; }
+  .subtitle { font-size: 10px; color: #64748b; letter-spacing: 0.15em; text-transform: uppercase; }
 
-  .header-actions { display: flex; gap: 8px; }
   .icon-btn {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
     color: #cbd5e1; border-radius: 8px; padding: 8px 10px; font-size: 14px;
-    display: flex; align-items: center; gap: 4px; transition: all 0.15s;
   }
-  .icon-btn.danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #ef4444; }
   .icon-btn:active { transform: scale(0.95); }
 
-  .progress-section { margin-bottom: 16px; }
+  .progress-section { margin-bottom: 14px; }
   .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .progress-label { font-size: 11px; color: #94a3b8; letter-spacing: 0.1em; }
-  .progress-pct { font-size: 20px; color: #fbbf24; }
-  .progress-bar { height: 6px; background: rgba(251, 191, 36, 0.1); border-radius: 999px; overflow: hidden; }
+  .progress-label { font-size: 10px; color: #94a3b8; letter-spacing: 0.1em; }
+  .progress-pct { font-size: 18px; color: #fbbf24; }
+  .progress-bar { height: 5px; background: rgba(251, 191, 36, 0.1); border-radius: 999px; overflow: hidden; }
   .progress-fill {
     height: 100%; background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
     border-radius: 999px; transition: width 0.4s ease;
     box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
   }
 
-  .week-tabs { overflow-x: auto; display: flex; gap: 8px; padding: 4px; margin: 0 -4px -4px; }
-  .week-tab {
-    flex-shrink: 0; min-width: 62px;
-    padding: 8px 4px 6px;
+  /* Quarter tabs */
+  .quarter-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .quarter-tab {
+    flex: 1; padding: 10px 4px; border-radius: 10px;
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    color: #e2e8f0;
+    color: #94a3b8;
     display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: all 0.2s; position: relative;
+  }
+  .quarter-tab.active { color: #0a0e1a; }
+  .quarter-tab:active { transform: scale(0.97); }
+  .q-name { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+  .q-label { font-size: 9px; opacity: 0.85; }
+  .q-pct { position: absolute; top: 4px; right: 6px; font-size: 9px; font-weight: 700; opacity: 0.7; }
+
+  /* Week tabs */
+  .week-tabs { overflow-x: auto; display: flex; gap: 6px; padding: 4px; margin: 0 -4px -4px; }
+  .week-tab {
+    flex-shrink: 0; min-width: 50px;
+    padding: 7px 4px 5px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 9px;
+    color: #e2e8f0;
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
     position: relative; transition: all 0.2s;
   }
   .week-tab.active { color: #0a0e1a; }
   .week-tab:active { transform: scale(0.95); }
-  .tab-label { font-size: 9px; opacity: 0.8; letter-spacing: 0.05em; }
-  .tab-num { font-size: 18px; line-height: 1; }
-  .tab-pct { font-size: 9px; font-weight: 600; opacity: 0.6; }
+  .tab-label { font-size: 8px; opacity: 0.7; letter-spacing: 0.05em; }
+  .tab-num { font-size: 16px; line-height: 1; }
+  .tab-pct { font-size: 8px; font-weight: 600; opacity: 0.6; }
   .week-tab.active .tab-pct { opacity: 0.9; }
-  .trophy { position: absolute; top: 4px; right: 4px; font-size: 10px; }
+  .trophy { position: absolute; top: 2px; right: 3px; font-size: 9px; }
 
   .content { padding: 20px 16px 0; }
 
+  .phase-info { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
   .phase-badge {
     display: inline-block; padding: 6px 12px;
     border-radius: 999px; font-size: 11px;
     letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase;
-    margin-right: 10px;
   }
-  .phase-info { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
   .phase-meta { font-size: 12px; color: #64748b; }
 
-  .week-title { font-size: 42px; color: #f8fafc; line-height: 1; margin-bottom: 4px; }
-  .week-meta { font-size: 13px; color: #94a3b8; margin-bottom: 24px; }
+  .week-title { font-size: 38px; color: #f8fafc; line-height: 1; margin-bottom: 4px; }
+  .week-meta { font-size: 13px; color: #94a3b8; margin-bottom: 20px; }
+
+  .quarter-goal {
+    background: rgba(251, 191, 36, 0.06);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 20px;
+    font-size: 13px; color: #fbbf24;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .quarter-goal-icon { font-size: 16px; }
 
   .days { display: flex; flex-direction: column; gap: 12px; }
 
@@ -106,7 +128,7 @@
   .day-header-left { display: flex; align-items: baseline; gap: 12px; }
   .day-name { font-size: 22px; line-height: 1; }
   .day-focus { font-size: 13px; color: #cbd5e1; font-weight: 500; }
-  .star { color: #fbbf24; font-size: 14px; }
+  .star { font-size: 14px; }
   .day-count {
     font-size: 11px; color: #64748b; font-weight: 600;
     padding: 3px 8px; border-radius: 999px;
@@ -121,7 +143,6 @@
     border-top: 1px solid rgba(255,255,255,0.04);
     transition: background 0.15s;
   }
-  .ex-row:hover { background: rgba(255,255,255,0.03); }
 
   .checkbox {
     background: none; border: none; padding: 0;
@@ -148,8 +169,7 @@
     padding: 7px 10px;
     display: flex; align-items: center; gap: 4px;
     font-size: 11px; font-weight: 600;
-    opacity: 0.85; flex-shrink: 0;
-    transition: all 0.15s;
+    flex-shrink: 0;
   }
   .video-btn:active { transform: scale(0.92); }
 
@@ -186,7 +206,6 @@
   .menu {
     background: #1e293b; border-radius: 20px 20px 0 0;
     width: 100%; max-width: 500px; padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
   }
   .menu-title { font-size: 18px; color: #fbbf24; margin-bottom: 14px; }
   .menu-btn {
@@ -198,7 +217,6 @@
     display: flex; align-items: center; gap: 10px;
   }
   .menu-btn.danger { color: #ef4444; border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.05); }
-  .menu-btn-icon { font-size: 18px; }
   .menu-close {
     width: 100%; padding: 12px;
     background: transparent; border: none;
@@ -213,130 +231,255 @@
   <div class="menu" onclick="event.stopPropagation()">
     <div class="menu-title">Opções</div>
     <button class="menu-btn" onclick="exportData()">
-      <span class="menu-btn-icon">📥</span> Exportar progresso (backup)
+      <span>📥</span> Exportar progresso (backup)
     </button>
     <button class="menu-btn" onclick="document.getElementById('import-file').click()">
-      <span class="menu-btn-icon">📤</span> Importar progresso
+      <span>📤</span> Importar progresso
     </button>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
     <button class="menu-btn danger" onclick="resetAll()">
-      <span class="menu-btn-icon">🗑️</span> Resetar tudo
+      <span>🗑️</span> Resetar tudo
     </button>
     <button class="menu-close" onclick="closeMenu()">Fechar</button>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'hspu-progress-v1';
-const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent('como fazer ' + q)}`;
+const STORAGE_KEY = 'planche-progress-v1';
+const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
 
+// PLANCHE-SPECIFIC EXERCISES
 const EX = {
-  flex: { n: 'Flexão tradicional', v: yt('flexão tradicional') },
+  // Punho/aquecimento
+  wrist: { n: 'Aquecimento de punhos (3 min)', v: yt('wrist warmup planche') },
+  wristProg: { n: 'Wrist conditioning progressivo', v: yt('wrist preparation calisthenics') },
+
+  // Push básico
+  flex: { n: 'Flexão tradicional', v: yt('flexão tradicional técnica') },
   flexD: { n: 'Flexão diamante', v: yt('flexão diamante tríceps') },
-  merg: { n: 'Mergulho em cadeira', v: yt('mergulho em cadeira tríceps') },
+  flexI: { n: 'Flexão inclinada (mãos na cadeira)', v: yt('flexão inclinada iniciante') },
+  flexDec: { n: 'Flexão declinada (pés no sofá)', v: yt('flexão declinada') },
+  merg: { n: 'Mergulho em cadeira', v: yt('mergulho cadeira tríceps') },
+  pike: { n: 'Pike push-up', v: yt('pike push up') },
+
+  // Planche progressions - SKILL
+  scapPush: { n: 'Scapular push-up (protração)', v: yt('scapular push up protraction') },
+  planLean: { n: 'Planche Lean (inclinação)', v: yt('planche lean tutorial') },
+  planLeanD: { n: 'Planche Lean profundo', v: yt('deep planche lean') },
+  ppp: { n: 'Pseudo Planche Push-up (PPP)', v: yt('pseudo planche push up tutorial') },
+  pppD: { n: 'PPP profundo (mãos mais atrás)', v: yt('advanced pseudo planche push up') },
+  frog: { n: 'Frog Stand / Crow Pose', v: yt('frog stand crow pose tutorial') },
+  frogToL: { n: 'Frog Stand → Tuck Planche', v: yt('frog stand to tuck planche') },
+  tuck: { n: 'Tuck Planche Hold', v: yt('tuck planche hold tutorial') },
+  tuckAdv: { n: 'Advanced Tuck Planche', v: yt('advanced tuck planche') },
+  tuckPush: { n: 'Tuck Planche Push-up', v: yt('tuck planche push up') },
+  straddle: { n: 'Straddle Planche Hold', v: yt('straddle planche hold') },
+  straddleN: { n: 'Negativa de Straddle Planche', v: yt('straddle planche negative') },
+  straddlePush: { n: 'Straddle Planche Push-up', v: yt('straddle planche push up') },
+  fullN: { n: 'Negativa de Full Planche', v: yt('full planche negative') },
+  fullHold: { n: 'Full Planche Hold (tentativas)', v: yt('full planche hold') },
+  fullPush: { n: 'Full Planche Push-up (tentativas)', v: yt('full planche push up tutorial') },
+
+  // Core
   prancha: { n: 'Prancha', v: yt('prancha abdominal') },
-  hollow: { n: 'Hollow hold', v: yt('hollow hold abdomen') },
+  hollow: { n: 'Hollow body hold', v: yt('hollow body hold') },
+  hollowR: { n: 'Hollow rocks', v: yt('hollow rocks') },
+  vsit: { n: 'V-sit hold', v: yt('v-sit hold') },
+  Lsit: { n: 'L-sit (cadeiras)', v: yt('L sit progression') },
   deadBug: { n: 'Dead bug', v: yt('dead bug exercício') },
   mc: { n: 'Mountain climber', v: yt('mountain climber') },
-  pike: { n: 'Pike push-up', v: yt('pike push up') },
-  pikeE: { n: 'Pike push-up pés elevados', v: yt('pike push up pés elevados sofá') },
-  pikePr: { n: 'Pike push-up profundo (cabeça toca chão)', v: yt('deep pike push up') },
-  parPar: { n: 'Parada de mão na parede (costas)', v: yt('parada de mão na parede iniciante') },
-  parParP: { n: 'Parada de mão peito virado pra parede', v: yt('handstand peito virado parede') },
-  negHSPU: { n: 'Negativa de HSPU na parede', v: yt('handstand push up negativa lenta') },
-  hspuL: { n: 'HSPU com livros (amplitude parcial)', v: yt('handstand push up parcial livros') },
-  shoulderTap: { n: 'Prancha com toque no ombro', v: yt('prancha shoulder tap') },
-  parPunho: { n: 'Aquecimento de punhos (2 min)', v: yt('aquecimento punho calistenia') },
-  along: { n: 'Alongamento (ombros, punhos, isquios) — 10 min', v: yt('alongamento ombros punhos mobilidade') },
+
+  // Pernas (pra não atrofiar)
   agach: { n: 'Agachamento livre', v: yt('agachamento livre técnica') },
-  afundo: { n: 'Afundo (passada)', v: yt('afundo passada técnica') },
+  afundo: { n: 'Afundo (passada)', v: yt('afundo passada') },
   bulgaro: { n: 'Búlgaro com cadeira', v: yt('agachamento búlgaro cadeira') },
-  ponte: { n: 'Ponte de glúteo', v: yt('ponte de glúteo') },
+  ponte: { n: 'Ponte de glúteo (1 perna)', v: yt('single leg glute bridge') },
+  pistolP: { n: 'Pistol squat progressão', v: yt('pistol squat progressão') },
+
+  // Mobilidade
+  along: { n: 'Mobilidade ombro/punho/peito (15 min)', v: yt('mobilidade ombro punho calistenia') },
+  alongP: { n: 'Mobilidade específica para planche', v: yt('mobility for planche') },
+
+  // Full body
   burpee: { n: 'Burpee', v: yt('burpee técnica') },
 };
 
-function buildWeek(n) {
-  let phase, phaseName, phaseColor;
-  if (n <= 2) { phase = 1; phaseName = 'Fundação'; phaseColor = '#10b981'; }
-  else if (n <= 5) { phase = 2; phaseName = 'Construção'; phaseColor = '#3b82f6'; }
-  else if (n <= 8) { phase = 3; phaseName = 'Força'; phaseColor = '#8b5cf6'; }
-  else { phase = 4; phaseName = 'Conquista'; phaseColor = '#ef4444'; }
+// Quarters definition with theme color and focus
+const QUARTERS = [
+  { id: 1, name: 'T1', label: 'Fundação', color: '#10b981',
+    goal: 'Construir força base, condicionamento de punhos e dominar Planche Lean + Frog Stand.' },
+  { id: 2, name: 'T2', label: 'Tuck Planche', color: '#3b82f6',
+    goal: 'Dominar Tuck Planche Hold (joelhos no peito) por 20-30s e iniciar Tuck Push-ups.' },
+  { id: 3, name: 'T3', label: 'Advanced + Straddle', color: '#8b5cf6',
+    goal: 'Advanced Tuck Planche (joelhos longe do peito) e primeiras tentativas de Straddle.' },
+  { id: 4, name: 'T4', label: 'Full Planche Push-up', color: '#ef4444',
+    goal: 'Straddle Planche + Full Planche Negatives → tentativas de Full Planche Push-up.' },
+];
 
+function getQuarter(week) {
+  if (week <= 13) return QUARTERS[0];
+  if (week <= 26) return QUARTERS[1];
+  if (week <= 39) return QUARTERS[2];
+  return QUARTERS[3];
+}
+
+// Build week structure based on phase progression
+function buildWeek(n) {
+  const q = getQuarter(n);
+  const wInQ = n - (q.id - 1) * 13; // 1-13 within the quarter
+
+  // ===== WED (PLANCHE SKILL DAY) - varies by quarter =====
   let qua;
-  if (phase === 1) {
+  if (q.id === 1) {
+    // Fundação - lean, frog, scap
+    const leanSec = 10 + Math.min(wInQ * 2, 30);
+    const frogSec = 5 + Math.min(wInQ * 2, 25);
     qua = [
-      { ex: EX.parPunho, r: '2 min' },
-      { ex: EX.pike, r: '3x8' },
-      { ex: EX.shoulderTap, r: '3x10' },
-      { ex: EX.prancha, r: '3x30s' },
+      { ex: EX.wrist, r: '3 min' },
+      { ex: EX.scapPush, r: '3x10' },
+      { ex: EX.planLean, r: `4x${leanSec}s` },
+      { ex: EX.frog, r: `3x${frogSec}s (acumular)` },
+      { ex: EX.ppp, r: `3x${5 + Math.floor(wInQ/2)}` },
     ];
-  } else if (phase === 2) {
+  } else if (q.id === 2) {
+    // Tuck Planche focus
+    const tuckSec = 5 + Math.min(wInQ * 2, 25);
     qua = [
-      { ex: EX.parPunho, r: '2 min' },
-      { ex: EX.pike, r: `3x${8 + n - 2}` },
-      { ex: EX.parParP, r: '3x20-30s' },
-      { ex: EX.shoulderTap, r: '3x12' },
+      { ex: EX.wrist, r: '3 min' },
+      { ex: EX.planLeanD, r: '4x30s' },
+      { ex: EX.frogToL, r: '3x5 transições' },
+      { ex: EX.tuck, r: `5x${tuckSec}s` },
+      { ex: EX.ppp, r: `4x${7 + Math.floor(wInQ/2)}` },
+      ...(wInQ >= 7 ? [{ ex: EX.tuckPush, r: '3x3-5' }] : []),
     ];
-  } else if (phase === 3) {
+  } else if (q.id === 3) {
+    // Advanced Tuck + Straddle intro
+    const advSec = 5 + Math.min(wInQ * 1.5, 20);
     qua = [
-      { ex: EX.parPunho, r: '2 min' },
-      { ex: EX.pikeE, r: '3x8' },
-      { ex: EX.parPar, r: `3x${30 + (n - 6) * 10}s` },
-      { ex: EX.negHSPU, r: '3x3 (descida lenta)' },
+      { ex: EX.wrist, r: '3 min' },
+      { ex: EX.tuck, r: '4x30s (aquecimento)' },
+      { ex: EX.tuckAdv, r: `5x${Math.round(advSec)}s` },
+      { ex: EX.tuckPush, r: '4x5-7' },
+      { ex: EX.pppD, r: '4x8' },
+      ...(wInQ >= 5 ? [{ ex: EX.straddle, r: '3x3-8s (tentativas)' }] : []),
     ];
   } else {
+    // Straddle + Full Planche attempts
+    const stradSec = 3 + Math.min(wInQ, 12);
     qua = [
-      { ex: EX.parPunho, r: '2 min' },
-      { ex: EX.hspuL, r: `3x${3 + Math.min(n - 9, 3)}` },
-      { ex: EX.parPar, r: '3x60s' },
-      { ex: EX.pikePr, r: '3x8' },
+      { ex: EX.wrist, r: '3 min' },
+      { ex: EX.tuckAdv, r: '4x20s (aquecimento)' },
+      { ex: EX.straddle, r: `5x${stradSec}s` },
+      { ex: EX.straddleN, r: '4x2-3 (descida lenta)' },
+      { ex: EX.pppD, r: '4x10' },
+      ...(wInQ >= 5 ? [{ ex: EX.fullN, r: '3x1-2 tentativas' }] : []),
+      ...(wInQ >= 10 ? [{ ex: EX.fullPush, r: 'Tentativas livres' }] : []),
     ];
   }
 
-  const segReps = phase === 1 ? 'máximo' : phase === 2 ? 'máximo +1' : phase === 3 ? 'máximo +3' : 'máximo +5';
-  const flexDiamReps = 8 + (n - 1);
+  // ===== MON (PUSH) =====
+  let seg;
+  if (q.id === 1) {
+    seg = [
+      { ex: EX.flex, r: `3x ${wInQ <= 5 ? 'máximo' : 'máximo +2'}` },
+      { ex: EX.flexD, r: `3x${8 + wInQ}` },
+      { ex: EX.merg, r: '3x10-12' },
+      { ex: EX.pike, r: '3x8' },
+    ];
+  } else if (q.id === 2) {
+    seg = [
+      { ex: EX.flexDec, r: '4x10-12' },
+      { ex: EX.flexD, r: '4x12' },
+      { ex: EX.pike, r: '4x10' },
+      { ex: EX.ppp, r: '3x6' },
+    ];
+  } else if (q.id === 3) {
+    seg = [
+      { ex: EX.flexDec, r: '4x15' },
+      { ex: EX.flexD, r: '4x15' },
+      { ex: EX.pike, r: '4x12' },
+      { ex: EX.pppD, r: '4x6-8' },
+    ];
+  } else {
+    seg = [
+      { ex: EX.flexDec, r: '4x15-20' },
+      { ex: EX.flexD, r: '4x15-20' },
+      { ex: EX.pike, r: '4x15' },
+      { ex: EX.tuckPush, r: '3x5-7' },
+    ];
+  }
 
+  // ===== TUE (CORE + WRIST) =====
+  let ter;
+  if (q.id === 1) {
+    ter = [
+      { ex: EX.wristProg, r: '5 min' },
+      { ex: EX.hollow, r: `3x${20 + wInQ * 2}s` },
+      { ex: EX.prancha, r: `3x${40 + wInQ * 3}s` },
+      { ex: EX.deadBug, r: '3x10' },
+      { ex: EX.mc, r: '3x30s' },
+    ];
+  } else if (q.id === 2) {
+    ter = [
+      { ex: EX.wristProg, r: '5 min' },
+      { ex: EX.hollowR, r: '4x20' },
+      { ex: EX.Lsit, r: '4x10-15s' },
+      { ex: EX.prancha, r: '3x60s' },
+      { ex: EX.mc, r: '3x40s' },
+    ];
+  } else {
+    ter = [
+      { ex: EX.wristProg, r: '5 min' },
+      { ex: EX.Lsit, r: '5x15-20s' },
+      { ex: EX.vsit, r: '4x10s' },
+      { ex: EX.hollowR, r: '4x25' },
+      { ex: EX.prancha, r: '3x60s' },
+    ];
+  }
+
+  // ===== FRI (LEGS) =====
+  const sex = q.id <= 2
+    ? [
+        { ex: EX.agach, r: '3x20' },
+        { ex: EX.afundo, r: '3x10 cada perna' },
+        { ex: EX.bulgaro, r: '3x10 cada perna' },
+        { ex: EX.ponte, r: '3x12 cada perna' },
+      ]
+    : [
+        { ex: EX.agach, r: '4x20' },
+        { ex: EX.pistolP, r: '4x5 cada perna' },
+        { ex: EX.bulgaro, r: '4x12 cada perna' },
+        { ex: EX.ponte, r: '3x15 cada perna' },
+      ];
+
+  // ===== SAT (FULL BODY / SKILL) =====
+  const sab = [
+    { ex: EX.planLean, r: '3x30s' },
+    { ex: EX.ppp, r: '3x8' },
+    { ex: EX.frog, r: '3x20s' },
+    { ex: EX.burpee, r: '3x10' },
+  ];
+
+  // ===== Days array =====
   return {
-    n, phase, phaseName, phaseColor,
+    n, quarter: q.id, phaseColor: q.color, phaseName: q.label,
     days: [
-      { day: 'SEG', focus: 'Peito e Tríceps', color: '#ef4444',
-        exs: [
-          { ex: EX.flex, r: `3x ${segReps}` },
-          { ex: EX.flexD, r: `3x${flexDiamReps}` },
-          { ex: EX.merg, r: '3x10-12' },
-        ]},
-      { day: 'TER', focus: 'Core', color: '#f59e0b',
-        exs: [
-          { ex: EX.prancha, r: `3x${40 + (n - 1) * 5}s` },
-          { ex: EX.hollow, r: `3x${20 + (n - 1) * 3}s` },
-          { ex: EX.deadBug, r: '3x10 (cada lado)' },
-          { ex: EX.mc, r: '3x30s' },
-        ]},
-      { day: 'QUA', focus: 'Ombros — FOCO DO OBJETIVO', color: '#8b5cf6', isStar: true, exs: qua },
-      { day: 'QUI', focus: 'Descanso ativo / Mobilidade', color: '#10b981',
-        exs: [{ ex: EX.along, r: '10 min' }]},
-      { day: 'SEX', focus: 'Pernas', color: '#3b82f6',
-        exs: [
-          { ex: EX.agach, r: '3x20' },
-          { ex: EX.afundo, r: '3x10 cada perna' },
-          { ex: EX.bulgaro, r: '3x10 cada perna' },
-          { ex: EX.ponte, r: '3x15' },
-        ]},
-      { day: 'SAB', focus: 'Full body curto', color: '#ec4899',
-        exs: [
-          { ex: EX.burpee, r: '4 rounds: 10 reps' },
-          { ex: EX.agach, r: '4 rounds: 15 reps' },
-          { ex: EX.flex, r: '4 rounds: 10 reps' },
-          { ex: EX.prancha, r: '4 rounds: 30s' },
-        ]},
+      { day: 'SEG', focus: 'Push (peito/tríceps/ombro)', color: '#ef4444', exs: seg },
+      { day: 'TER', focus: 'Core + Punhos', color: '#f59e0b', exs: ter },
+      { day: 'QUA', focus: 'PLANCHE — DIA PRINCIPAL', color: q.color, isStar: true, exs: qua },
+      { day: 'QUI', focus: 'Mobilidade / Descanso ativo', color: '#10b981',
+        exs: [{ ex: EX.alongP, r: '15 min' }] },
+      { day: 'SEX', focus: 'Pernas', color: '#3b82f6', exs: sex },
+      { day: 'SAB', focus: 'Skill day (planche prática)', color: '#ec4899', exs: sab },
       { day: 'DOM', focus: 'Descanso total', color: '#64748b', exs: [] },
     ]
   };
 }
 
-const WEEKS = Array.from({ length: 12 }, (_, i) => buildWeek(i + 1));
+const WEEKS = Array.from({ length: 52 }, (_, i) => buildWeek(i + 1));
 
 // State
+let currentQuarter = 1;
 let currentWeek = 1;
 let progress = {};
 
@@ -369,7 +512,6 @@ function toggleCheck(w, di, ei, btnEl) {
   const key = `w${w}d${di}e${ei}`;
   progress[key] = !progress[key];
   saveProgress();
-  // Animate
   if (btnEl) { btnEl.classList.add('popping'); setTimeout(() => btnEl.classList.remove('popping'), 300); }
   render();
 }
@@ -381,13 +523,30 @@ function weekCompletion(w) {
   return total === 0 ? 0 : Math.round((done / total) * 100);
 }
 
+function quarterCompletion(q) {
+  const start = (q - 1) * 13 + 1;
+  const end = q * 13;
+  let sum = 0;
+  for (let w = start; w <= end; w++) sum += weekCompletion(w);
+  return Math.round(sum / 13);
+}
+
 function overallCompletion() {
   const vals = WEEKS.map((_, i) => weekCompletion(i + 1));
   return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
+function setQuarter(q) {
+  currentQuarter = q;
+  // Set current week to first week of that quarter
+  currentWeek = (q - 1) * 13 + 1;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function setWeek(n) {
   currentWeek = n;
+  currentQuarter = getQuarter(n).id;
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -413,7 +572,7 @@ function exportData() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `hspu-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `planche-backup-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
   closeMenu();
@@ -442,40 +601,57 @@ function importData(e) {
   e.target.value = '';
 }
 
-// Icons (inline SVG)
 const ICON_CHECK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
 const ICON_CIRCLE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
 const ICON_PLAY = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
 
 function render() {
   const week = WEEKS[currentWeek - 1];
+  const q = QUARTERS[currentQuarter - 1];
   const overall = overallCompletion();
   const exTotal = week.days.reduce((s, d) => s + d.exs.length, 0);
 
-  const tabsHtml = WEEKS.map(w => {
-    const c = weekCompletion(w.n);
-    const active = currentWeek === w.n;
-    const done = c === 100;
-    const style = active ? `background:${w.phaseColor};border-color:${w.phaseColor};` : '';
-    return `<button class="week-tab ${active ? 'active' : ''}" style="${style}" onclick="setWeek(${w.n})">
-      <div class="tab-label">SEM</div>
-      <div class="tab-num display">${w.n}</div>
-      <div class="tab-pct">${c}%</div>
-      ${done ? '<div class="trophy">🏆</div>' : ''}
+  // Quarter tabs
+  const qTabsHtml = QUARTERS.map(qu => {
+    const c = quarterCompletion(qu.id);
+    const active = currentQuarter === qu.id;
+    const style = active ? `background:${qu.color};border-color:${qu.color};` : '';
+    return `<button class="quarter-tab ${active ? 'active' : ''}" style="${style}" onclick="setQuarter(${qu.id})">
+      <div class="q-pct">${c}%</div>
+      <div class="q-name">${qu.name}</div>
+      <div class="q-label">${qu.label}</div>
     </button>`;
   }).join('');
 
+  // Week tabs - only for current quarter
+  const weekStart = (currentQuarter - 1) * 13 + 1;
+  const weekEnd = currentQuarter * 13;
+  let weekTabsHtml = '';
+  for (let w = weekStart; w <= weekEnd; w++) {
+    const c = weekCompletion(w);
+    const active = currentWeek === w;
+    const done = c === 100;
+    const style = active ? `background:${q.color};border-color:${q.color};` : '';
+    weekTabsHtml += `<button class="week-tab ${active ? 'active' : ''}" style="${style}" onclick="setWeek(${w})">
+      <div class="tab-label">SEM</div>
+      <div class="tab-num display">${w}</div>
+      <div class="tab-pct">${c}%</div>
+      ${done ? '<div class="trophy">🏆</div>' : ''}
+    </button>`;
+  }
+
+  // Days
   const daysHtml = week.days.map((d, di) => {
     const total = d.exs.length;
     const done = d.exs.filter((_, ei) => isChecked(currentWeek, di, ei)).length;
     const allDone = total > 0 && done === total;
 
     const exsHtml = total === 0
-      ? `<div class="rest-text">Recupere. Brinque com as crianças.</div>`
+      ? `<div class="rest-text">Descanso completo. Recuperação é parte do treino.</div>`
       : d.exs.map((row, ei) => {
           const checked = isChecked(currentWeek, di, ei);
           return `<div class="ex-row">
-            <button class="checkbox ${checked ? 'checked' : ''}" onclick="toggleCheck(${currentWeek},${di},${ei},this)" aria-label="${checked ? 'Desmarcar' : 'Marcar'}">
+            <button class="checkbox ${checked ? 'checked' : ''}" onclick="toggleCheck(${currentWeek},${di},${ei},this)">
               ${checked ? ICON_CHECK : ICON_CIRCLE}
             </button>
             <div class="ex-info">
@@ -502,9 +678,10 @@ function render() {
     </div>`;
   }).join('');
 
+  // Navigation
   const navHtml = `<div class="nav">
     ${currentWeek > 1 ? `<button class="nav-btn" onclick="setWeek(${currentWeek - 1})">← Semana ${currentWeek - 1}</button>` : ''}
-    ${currentWeek < 12 ? `<button class="nav-btn next" onclick="setWeek(${currentWeek + 1})">Semana ${currentWeek + 1} →</button>` : ''}
+    ${currentWeek < 52 ? `<button class="nav-btn next" onclick="setWeek(${currentWeek + 1})">Semana ${currentWeek + 1} →</button>` : ''}
   </div>`;
 
   document.getElementById('app').innerHTML = `
@@ -512,12 +689,10 @@ function render() {
       <div class="header">
         <div class="header-top">
           <div>
-            <div class="title display">HSPU PROJECT</div>
-            <div class="subtitle">Flexão na parada de mão · 12 semanas</div>
+            <div class="title display">PLANCHE PROJECT</div>
+            <div class="subtitle">Full Planche Push-up · 52 semanas · 4 trimestres</div>
           </div>
-          <div class="header-actions">
-            <button class="icon-btn" onclick="openMenu()" aria-label="Menu">⚙️</button>
-          </div>
+          <button class="icon-btn" onclick="openMenu()">⚙️</button>
         </div>
         <div class="progress-section">
           <div class="progress-header">
@@ -526,17 +701,22 @@ function render() {
           </div>
           <div class="progress-bar"><div class="progress-fill" style="width:${overall}%"></div></div>
         </div>
-        <div class="week-tabs">${tabsHtml}</div>
+        <div class="quarter-tabs">${qTabsHtml}</div>
+        <div class="week-tabs">${weekTabsHtml}</div>
       </div>
       <div class="content">
         <div class="phase-info">
-          <div class="phase-badge" style="background:${week.phaseColor}20;border:1px solid ${week.phaseColor}60;color:${week.phaseColor}">
-            Fase ${week.phase} · ${week.phaseName}
+          <div class="phase-badge" style="background:${q.color}20;border:1px solid ${q.color}60;color:${q.color}">
+            ${q.name} · ${q.label}
           </div>
-          <div class="phase-meta">Semana ${week.n} de 12</div>
+          <div class="phase-meta">Semana ${week.n} de 52</div>
         </div>
         <div class="week-title display">SEMANA ${String(week.n).padStart(2, '0')}</div>
         <div class="week-meta">${weekCompletion(week.n)}% concluído · ${exTotal} exercícios</div>
+        <div class="quarter-goal">
+          <span class="quarter-goal-icon">🎯</span>
+          <span><strong>Meta do trimestre:</strong> ${q.goal}</span>
+        </div>
         <div class="days">${daysHtml}</div>
         ${navHtml}
       </div>
@@ -547,12 +727,9 @@ function render() {
 loadProgress();
 render();
 
-// Register service worker for offline support
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch((err) => {
-      console.log('SW registration failed:', err);
-    });
+    navigator.serviceWorker.register('service-worker.js').catch(() => {});
   });
 }
 </script>

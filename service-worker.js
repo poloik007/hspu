@@ -1,5 +1,5 @@
-// HSPU PWA Service Worker
-const CACHE_NAME = 'hspu-v1';
+// Planche PWA Service Worker
+const CACHE_NAME = 'planche-v1';
 const ASSETS = [
   './',
   './index.html',

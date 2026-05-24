@@ -1,7 +1,7 @@
 {
-  "name": "HSPU Project",
-  "short_name": "HSPU",
-  "description": "Plano de 12 semanas para flexão na parada de mão",
+  "name": "Planche Project",
+  "short_name": "Planche",
+  "description": "Plano de 52 semanas para Full Planche Push-up",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
