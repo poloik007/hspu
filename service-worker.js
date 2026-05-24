@@ -1,5 +1,5 @@
 // Planche PWA Service Worker
-const CACHE_NAME = 'planche-v1';
+const CACHE_NAME = 'planche-v2';
 const ASSETS = [
   './',
   './index.html',

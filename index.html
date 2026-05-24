@@ -513,7 +513,9 @@ function toggleCheck(w, di, ei, btnEl) {
   progress[key] = !progress[key];
   saveProgress();
   if (btnEl) { btnEl.classList.add('popping'); setTimeout(() => btnEl.classList.remove('popping'), 300); }
-  render();
+  // Surgical updates only — don't rebuild the header/tabs
+  renderContent();
+  updateProgressBar();
 }
 
 function weekCompletion(w) {
@@ -537,18 +539,34 @@ function overallCompletion() {
 }
 
 function setQuarter(q) {
+  if (currentQuarter === q) return;
   currentQuarter = q;
-  // Set current week to first week of that quarter
+  // Jump to first week of new quarter
   currentWeek = (q - 1) * 13 + 1;
-  render();
+  // Rebuild week-tabs (different set of weeks shown) + update everything
+  renderWeekTabs();
+  updateActiveTabsState();
+  updateProgressBar();
+  renderContent();
+  // Scroll to top makes sense when changing quarter (big context shift)
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function setWeek(n) {
+  const newQuarter = getQuarter(n).id;
+  const quarterChanged = newQuarter !== currentQuarter;
   currentWeek = n;
-  currentQuarter = getQuarter(n).id;
-  render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  currentQuarter = newQuarter;
+
+  if (quarterChanged) {
+    // Need to rebuild week-tabs because we're showing a different set
+    renderWeekTabs();
+  }
+  // No DOM rebuild of header/tabs — just update active state + content
+  updateActiveTabsState();
+  updateProgressBar();
+  renderContent();
+  // Don't auto-scroll; user picked a week, keep their tab scroll position
 }
 
 function openMenu() { document.getElementById('menu').classList.add('open'); }
@@ -562,7 +580,7 @@ function resetAll() {
     progress = {};
     saveProgress();
     closeMenu();
-    render();
+    mountApp();
   }
 }
 
@@ -590,7 +608,7 @@ function importData(e) {
         progress = data;
         saveProgress();
         closeMenu();
-        render();
+        mountApp();
         showToast('📤 Importado!');
       }
     } catch (err) {
@@ -605,42 +623,149 @@ const ICON_CHECK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_CIRCLE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
 const ICON_PLAY = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
 
-function render() {
-  const week = WEEKS[currentWeek - 1];
-  const q = QUARTERS[currentQuarter - 1];
-  const overall = overallCompletion();
-  const exTotal = week.days.reduce((s, d) => s + d.exs.length, 0);
+// ============================================================
+// MODULAR RENDERING - mount once, surgical updates afterwards
+// ============================================================
 
-  // Quarter tabs
-  const qTabsHtml = QUARTERS.map(qu => {
+// Mount the initial app structure ONCE. Header is built here and won't
+// be torn down by week/checkbox interactions.
+function mountApp() {
+  document.getElementById('app').innerHTML = `
+    <div class="app">
+      <div class="header">
+        <div class="header-top">
+          <div>
+            <div class="title display">PLANCHE PROJECT</div>
+            <div class="subtitle">Full Planche Push-up · 52 semanas · 4 trimestres</div>
+          </div>
+          <button class="icon-btn" onclick="openMenu()">⚙️</button>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header">
+            <div class="progress-label">PROGRESSO GERAL</div>
+            <div class="progress-pct display" id="progress-pct">0%</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="quarter-tabs" id="quarter-tabs"></div>
+        <div class="week-tabs" id="week-tabs"></div>
+      </div>
+      <div class="content" id="content"></div>
+    </div>
+  `;
+  renderQuarterTabs();
+  renderWeekTabs();
+  renderContent();
+  updateProgressBar();
+}
+
+function renderQuarterTabs() {
+  const html = QUARTERS.map(qu => {
     const c = quarterCompletion(qu.id);
     const active = currentQuarter === qu.id;
     const style = active ? `background:${qu.color};border-color:${qu.color};` : '';
-    return `<button class="quarter-tab ${active ? 'active' : ''}" style="${style}" onclick="setQuarter(${qu.id})">
-      <div class="q-pct">${c}%</div>
+    return `<button class="quarter-tab ${active ? 'active' : ''}" data-q="${qu.id}" style="${style}" onclick="setQuarter(${qu.id})">
+      <div class="q-pct" data-q-pct="${qu.id}">${c}%</div>
       <div class="q-name">${qu.name}</div>
       <div class="q-label">${qu.label}</div>
     </button>`;
   }).join('');
+  document.getElementById('quarter-tabs').innerHTML = html;
+}
 
-  // Week tabs - only for current quarter
+function renderWeekTabs() {
+  const q = QUARTERS[currentQuarter - 1];
   const weekStart = (currentQuarter - 1) * 13 + 1;
   const weekEnd = currentQuarter * 13;
-  let weekTabsHtml = '';
+  let html = '';
   for (let w = weekStart; w <= weekEnd; w++) {
     const c = weekCompletion(w);
     const active = currentWeek === w;
     const done = c === 100;
     const style = active ? `background:${q.color};border-color:${q.color};` : '';
-    weekTabsHtml += `<button class="week-tab ${active ? 'active' : ''}" style="${style}" onclick="setWeek(${w})">
+    html += `<button class="week-tab ${active ? 'active' : ''}" data-w="${w}" style="${style}" onclick="setWeek(${w})">
       <div class="tab-label">SEM</div>
       <div class="tab-num display">${w}</div>
-      <div class="tab-pct">${c}%</div>
-      ${done ? '<div class="trophy">🏆</div>' : ''}
+      <div class="tab-pct" data-w-pct="${w}">${c}%</div>
+      ${done ? `<div class="trophy" data-w-trophy="${w}">🏆</div>` : ''}
     </button>`;
   }
+  document.getElementById('week-tabs').innerHTML = html;
+}
 
-  // Days
+// Update only the visual "active" state of tabs and the percentage text,
+// without rebuilding tab nodes (preserves scroll position).
+function updateActiveTabsState() {
+  const q = QUARTERS[currentQuarter - 1];
+  // Quarter tabs
+  document.querySelectorAll('.quarter-tab').forEach(el => {
+    const qid = parseInt(el.dataset.q);
+    const qu = QUARTERS[qid - 1];
+    if (qid === currentQuarter) {
+      el.classList.add('active');
+      el.style.background = qu.color;
+      el.style.borderColor = qu.color;
+    } else {
+      el.classList.remove('active');
+      el.style.background = '';
+      el.style.borderColor = '';
+    }
+  });
+  // Week tabs
+  document.querySelectorAll('.week-tab').forEach(el => {
+    const wid = parseInt(el.dataset.w);
+    if (wid === currentWeek) {
+      el.classList.add('active');
+      el.style.background = q.color;
+      el.style.borderColor = q.color;
+    } else {
+      el.classList.remove('active');
+      el.style.background = '';
+      el.style.borderColor = '';
+    }
+  });
+}
+
+// Update progress numbers (overall + quarter + week tab percentages)
+// without re-rendering the DOM nodes themselves.
+function updateProgressBar() {
+  const overall = overallCompletion();
+  const pctEl = document.getElementById('progress-pct');
+  const fillEl = document.getElementById('progress-fill');
+  if (pctEl) pctEl.textContent = overall + '%';
+  if (fillEl) fillEl.style.width = overall + '%';
+
+  // Quarter percentages
+  QUARTERS.forEach(qu => {
+    const el = document.querySelector(`[data-q-pct="${qu.id}"]`);
+    if (el) el.textContent = quarterCompletion(qu.id) + '%';
+  });
+
+  // Week percentages + trophy state (only for visible week tabs)
+  document.querySelectorAll('.week-tab').forEach(el => {
+    const wid = parseInt(el.dataset.w);
+    const c = weekCompletion(wid);
+    const pctEl = el.querySelector('[data-w-pct]');
+    if (pctEl) pctEl.textContent = c + '%';
+    // Manage trophy badge
+    let trophy = el.querySelector('[data-w-trophy]');
+    if (c === 100 && !trophy) {
+      const t = document.createElement('div');
+      t.className = 'trophy';
+      t.dataset.wTrophy = wid;
+      t.textContent = '🏆';
+      el.appendChild(t);
+    } else if (c < 100 && trophy) {
+      trophy.remove();
+    }
+  });
+}
+
+function renderContent() {
+  const week = WEEKS[currentWeek - 1];
+  const q = QUARTERS[currentQuarter - 1];
+  const exTotal = week.days.reduce((s, d) => s + d.exs.length, 0);
+
   const daysHtml = week.days.map((d, di) => {
     const total = d.exs.length;
     const done = d.exs.filter((_, ei) => isChecked(currentWeek, di, ei)).length;
@@ -678,54 +803,31 @@ function render() {
     </div>`;
   }).join('');
 
-  // Navigation
   const navHtml = `<div class="nav">
     ${currentWeek > 1 ? `<button class="nav-btn" onclick="setWeek(${currentWeek - 1})">← Semana ${currentWeek - 1}</button>` : ''}
     ${currentWeek < 52 ? `<button class="nav-btn next" onclick="setWeek(${currentWeek + 1})">Semana ${currentWeek + 1} →</button>` : ''}
   </div>`;
 
-  document.getElementById('app').innerHTML = `
-    <div class="app">
-      <div class="header">
-        <div class="header-top">
-          <div>
-            <div class="title display">PLANCHE PROJECT</div>
-            <div class="subtitle">Full Planche Push-up · 52 semanas · 4 trimestres</div>
-          </div>
-          <button class="icon-btn" onclick="openMenu()">⚙️</button>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <div class="progress-label">PROGRESSO GERAL</div>
-            <div class="progress-pct display">${overall}%</div>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${overall}%"></div></div>
-        </div>
-        <div class="quarter-tabs">${qTabsHtml}</div>
-        <div class="week-tabs">${weekTabsHtml}</div>
+  document.getElementById('content').innerHTML = `
+    <div class="phase-info">
+      <div class="phase-badge" style="background:${q.color}20;border:1px solid ${q.color}60;color:${q.color}">
+        ${q.name} · ${q.label}
       </div>
-      <div class="content">
-        <div class="phase-info">
-          <div class="phase-badge" style="background:${q.color}20;border:1px solid ${q.color}60;color:${q.color}">
-            ${q.name} · ${q.label}
-          </div>
-          <div class="phase-meta">Semana ${week.n} de 52</div>
-        </div>
-        <div class="week-title display">SEMANA ${String(week.n).padStart(2, '0')}</div>
-        <div class="week-meta">${weekCompletion(week.n)}% concluído · ${exTotal} exercícios</div>
-        <div class="quarter-goal">
-          <span class="quarter-goal-icon">🎯</span>
-          <span><strong>Meta do trimestre:</strong> ${q.goal}</span>
-        </div>
-        <div class="days">${daysHtml}</div>
-        ${navHtml}
-      </div>
+      <div class="phase-meta">Semana ${week.n} de 52</div>
     </div>
+    <div class="week-title display">SEMANA ${String(week.n).padStart(2, '0')}</div>
+    <div class="week-meta">${weekCompletion(week.n)}% concluído · ${exTotal} exercícios</div>
+    <div class="quarter-goal">
+      <span class="quarter-goal-icon">🎯</span>
+      <span><strong>Meta do trimestre:</strong> ${q.goal}</span>
+    </div>
+    <div class="days">${daysHtml}</div>
+    ${navHtml}
   `;
 }
 
 loadProgress();
-render();
+mountApp();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
