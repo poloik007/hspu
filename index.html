@@ -250,57 +250,82 @@ const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURICompo
 
 // PLANCHE-SPECIFIC EXERCISES
 const EX = {
-  // Punho/aquecimento
-  wrist: { n: 'Aquecimento de punhos (3 min)', v: yt('wrist warmup planche') },
+  // === AQUECIMENTO/MOBILIDADE DE PUNHO (DIÁRIO) ===
+  wristDaily: { n: 'Rotina de punhos diária (5 min)', v: yt('daily wrist routine calisthenics') },
   wristProg: { n: 'Wrist conditioning progressivo', v: yt('wrist preparation calisthenics') },
+  wristStr: { n: 'Alongamento de punhos (extensão/flexão/lateral)', v: yt('wrist stretching mobility') },
 
-  // Push básico
-  flex: { n: 'Flexão tradicional', v: yt('flexão tradicional técnica') },
-  flexD: { n: 'Flexão diamante', v: yt('flexão diamante tríceps') },
-  flexI: { n: 'Flexão inclinada (mãos na cadeira)', v: yt('flexão inclinada iniciante') },
-  flexDec: { n: 'Flexão declinada (pés no sofá)', v: yt('flexão declinada') },
-  merg: { n: 'Mergulho em cadeira', v: yt('mergulho cadeira tríceps') },
-  pike: { n: 'Pike push-up', v: yt('pike push up') },
-
-  // Planche progressions - SKILL
-  scapPush: { n: 'Scapular push-up (protração)', v: yt('scapular push up protraction') },
-  planLean: { n: 'Planche Lean (inclinação)', v: yt('planche lean tutorial') },
-  planLeanD: { n: 'Planche Lean profundo', v: yt('deep planche lean') },
-  ppp: { n: 'Pseudo Planche Push-up (PPP)', v: yt('pseudo planche push up tutorial') },
-  pppD: { n: 'PPP profundo (mãos mais atrás)', v: yt('advanced pseudo planche push up') },
-  frog: { n: 'Frog Stand / Crow Pose', v: yt('frog stand crow pose tutorial') },
+  // === SKILL PLANCHE (com paraletes) ===
+  scapPush: { n: 'Scapular push-up (protração/retração)', v: yt('scapular push up protraction') },
+  scapPull: { n: 'Scapular pull (em barra/porta)', v: yt('scapular pull tutorial') },
+  planLean: { n: 'Planche Lean (paraletes)', v: yt('planche lean paralettes tutorial') },
+  planLeanD: { n: 'Planche Lean profundo (paraletes)', v: yt('deep planche lean paralettes') },
+  ppp: { n: 'Pseudo Planche Push-up nos paraletes', v: yt('pseudo planche push up paralettes') },
+  pppD: { n: 'PPP profundo nos paraletes', v: yt('advanced pseudo planche push up paralettes') },
+  frog: { n: 'Frog Stand / Crow nos paraletes', v: yt('frog stand paralettes') },
   frogToL: { n: 'Frog Stand → Tuck Planche', v: yt('frog stand to tuck planche') },
-  tuck: { n: 'Tuck Planche Hold', v: yt('tuck planche hold tutorial') },
-  tuckAdv: { n: 'Advanced Tuck Planche', v: yt('advanced tuck planche') },
-  tuckPush: { n: 'Tuck Planche Push-up', v: yt('tuck planche push up') },
-  straddle: { n: 'Straddle Planche Hold', v: yt('straddle planche hold') },
+  tuck: { n: 'Tuck Planche Hold (paraletes)', v: yt('tuck planche paralettes') },
+  tuckAdv: { n: 'Advanced Tuck Planche (paraletes)', v: yt('advanced tuck planche paralettes') },
+  tuckPush: { n: 'Tuck Planche Push-up (paraletes)', v: yt('tuck planche push up paralettes') },
+  straddle: { n: 'Straddle Planche Hold (paraletes)', v: yt('straddle planche paralettes') },
   straddleN: { n: 'Negativa de Straddle Planche', v: yt('straddle planche negative') },
   straddlePush: { n: 'Straddle Planche Push-up', v: yt('straddle planche push up') },
   fullN: { n: 'Negativa de Full Planche', v: yt('full planche negative') },
   fullHold: { n: 'Full Planche Hold (tentativas)', v: yt('full planche hold') },
   fullPush: { n: 'Full Planche Push-up (tentativas)', v: yt('full planche push up tutorial') },
 
-  // Core
+  // === PUSH (peito/ombro/tríceps) ===
+  flex: { n: 'Flexão tradicional nos paraletes', v: yt('paralette push up') },
+  flexD: { n: 'Flexão diamante', v: yt('flexão diamante tríceps') },
+  flexI: { n: 'Flexão inclinada (mãos elevadas)', v: yt('flexão inclinada iniciante') },
+  flexDec: { n: 'Flexão declinada (pés no sofá)', v: yt('flexão declinada') },
+  flexExpl: { n: 'Flexão explosiva (com bater de mão)', v: yt('clap push up') },
+  merg: { n: 'Mergulho nos paraletes', v: yt('paralette dips') },
+  mergRTO: { n: 'Mergulho RTO (rings turned out simulado)', v: yt('parallel bar dip RTO') },
+  pike: { n: 'Pike push-up nos paraletes', v: yt('pike push up paralettes') },
+  pikeE: { n: 'Pike push-up pés elevados', v: yt('elevated pike push up') },
+  hspu: { n: 'HSPU na parede (paraletes)', v: yt('handstand push up paralettes wall') },
+
+  // === PULL (puxar — fundamental pra balanço de ombro) ===
+  invRow: { n: 'Inverted Row (mesa/porta)', v: yt('inverted row at home table') },
+  invRowE: { n: 'Inverted Row pés elevados', v: yt('inverted row feet elevated') },
+  doorRow: { n: 'Rema com toalha em porta', v: yt('door pull towel row') },
+  bicepCurl: { n: 'Bíceps com mochila pesada', v: yt('bicep curl backpack home') },
+  bicepCurlT: { n: 'Bíceps com toalha em porta', v: yt('door towel bicep curl') },
+  archerRow: { n: 'Archer Inverted Row', v: yt('archer inverted row') },
+  tuckFLN: { n: 'Tuck Front Lever Negativa', v: yt('tuck front lever negative') },
+
+  // === ANTAGONIST/POSTURAL ===
+  reverseP: { n: 'Reverse plank (paraletes)', v: yt('reverse plank paralettes') },
+  yyt: { n: 'Y-T-W (ativação posterior do ombro)', v: yt('Y T W shoulder activation') },
+  cobra: { n: 'Cobra/Sphinx push-up', v: yt('cobra push up back') },
+  bridgeH: { n: 'Ponte hindu / wheel pose progressão', v: yt('wheel pose bridge progression') },
+
+  // === CORE (foco em hollow/L-sit pra planche) ===
   prancha: { n: 'Prancha', v: yt('prancha abdominal') },
   hollow: { n: 'Hollow body hold', v: yt('hollow body hold') },
   hollowR: { n: 'Hollow rocks', v: yt('hollow rocks') },
   vsit: { n: 'V-sit hold', v: yt('v-sit hold') },
-  Lsit: { n: 'L-sit (cadeiras)', v: yt('L sit progression') },
+  Lsit: { n: 'L-sit nos paraletes', v: yt('L sit paralettes') },
+  LsitAdv: { n: 'L-sit avançado / V-sit (paraletes)', v: yt('advanced L sit V sit paralettes') },
   deadBug: { n: 'Dead bug', v: yt('dead bug exercício') },
   mc: { n: 'Mountain climber', v: yt('mountain climber') },
+  arch: { n: 'Arch body hold (Superman)', v: yt('arch body hold superman') },
 
-  // Pernas (pra não atrofiar)
+  // === PERNAS ===
   agach: { n: 'Agachamento livre', v: yt('agachamento livre técnica') },
   afundo: { n: 'Afundo (passada)', v: yt('afundo passada') },
   bulgaro: { n: 'Búlgaro com cadeira', v: yt('agachamento búlgaro cadeira') },
   ponte: { n: 'Ponte de glúteo (1 perna)', v: yt('single leg glute bridge') },
   pistolP: { n: 'Pistol squat progressão', v: yt('pistol squat progressão') },
+  natural: { n: 'Nordic curl negativa (isquios)', v: yt('nordic curl progression') },
 
-  // Mobilidade
-  along: { n: 'Mobilidade ombro/punho/peito (15 min)', v: yt('mobilidade ombro punho calistenia') },
+  // === MOBILIDADE ===
+  along: { n: 'Mobilidade ombro/peito/quadril (15 min)', v: yt('mobilidade calistenia rotina') },
   alongP: { n: 'Mobilidade específica para planche', v: yt('mobility for planche') },
+  alongShoulder: { n: 'Mobilidade de ombro (banda imaginária)', v: yt('shoulder mobility no equipment') },
 
-  // Full body
+  // === FULL BODY/CONDICIONAMENTO ===
   burpee: { n: 'Burpee', v: yt('burpee técnica') },
 };
 
@@ -323,155 +348,208 @@ function getQuarter(week) {
   return QUARTERS[3];
 }
 
-// Build week structure based on phase progression
+// Build week structure based on phase progression.
+// Optimized for full planche push-up: 3 skill days (Mon/Wed/Sat),
+// dedicated pull day (Tue), legs (Fri), active mobility (Thu),
+// rest (Sun). Wrist warmup is prepended to EVERY day, including rest days.
 function buildWeek(n) {
   const q = getQuarter(n);
   const wInQ = n - (q.id - 1) * 13; // 1-13 within the quarter
 
-  // ===== WED (PLANCHE SKILL DAY) - varies by quarter =====
-  let qua;
+  // ============ SKILL BLOCKS (used Mon/Wed/Sat with varying intensity) ============
+  // Mon = "Heavy" skill (longer holds, lower volume)
+  // Wed = "Light technique" (form-focused, frequency-oriented)
+  // Sat = "Volume" (more sets, slightly shorter holds)
+
+  let skillHeavy, skillLight, skillVolume;
+
   if (q.id === 1) {
-    // Fundação - lean, frog, scap
+    // T1 — Fundação
     const leanSec = 10 + Math.min(wInQ * 2, 30);
     const frogSec = 5 + Math.min(wInQ * 2, 25);
-    qua = [
-      { ex: EX.wrist, r: '3 min' },
-      { ex: EX.scapPush, r: '3x10' },
-      { ex: EX.planLean, r: `4x${leanSec}s` },
-      { ex: EX.frog, r: `3x${frogSec}s (acumular)` },
-      { ex: EX.ppp, r: `3x${5 + Math.floor(wInQ/2)}` },
+    skillHeavy = [
+      { ex: EX.scapPush, r: '3x12 (lento)' },
+      { ex: EX.planLean, r: `5x${leanSec}s · desc 2min` },
+      { ex: EX.frog, r: `4x${frogSec}s · acumular 60s totais` },
+      { ex: EX.pppD, r: `4x${5 + Math.floor(wInQ/2)} · desc 90s` },
+    ];
+    skillLight = [
+      { ex: EX.scapPush, r: '2x10 (foco em técnica)' },
+      { ex: EX.planLean, r: `3x${Math.round(leanSec*0.7)}s` },
+      { ex: EX.frog, r: '3x15s (treino frequente, sem falha)' },
+    ];
+    skillVolume = [
+      { ex: EX.planLean, r: `6x${Math.round(leanSec*0.8)}s · desc 90s` },
+      { ex: EX.ppp, r: `4x${6 + Math.floor(wInQ/2)} · desc 90s` },
+      { ex: EX.frogToL, r: '4x5 transições' },
     ];
   } else if (q.id === 2) {
-    // Tuck Planche focus
+    // T2 — Tuck Planche
     const tuckSec = 5 + Math.min(wInQ * 2, 25);
-    qua = [
-      { ex: EX.wrist, r: '3 min' },
-      { ex: EX.planLeanD, r: '4x30s' },
+    skillHeavy = [
+      { ex: EX.planLeanD, r: '4x30s · desc 2min' },
+      { ex: EX.tuck, r: `6x${tuckSec}s · desc 3min` },
+      { ex: EX.pppD, r: `4x${6 + Math.floor(wInQ/2)} · desc 90s` },
+      ...(wInQ >= 7 ? [{ ex: EX.tuckPush, r: '4x3-5 · desc 2min' }] : []),
+    ];
+    skillLight = [
+      { ex: EX.scapPush, r: '2x12' },
+      { ex: EX.tuck, r: `4x${Math.round(tuckSec*0.6)}s (sem falha)` },
       { ex: EX.frogToL, r: '3x5 transições' },
-      { ex: EX.tuck, r: `5x${tuckSec}s` },
-      { ex: EX.ppp, r: `4x${7 + Math.floor(wInQ/2)}` },
-      ...(wInQ >= 7 ? [{ ex: EX.tuckPush, r: '3x3-5' }] : []),
+    ];
+    skillVolume = [
+      { ex: EX.planLean, r: '5x30s · desc 90s' },
+      { ex: EX.tuck, r: `5x${Math.round(tuckSec*0.7)}s · desc 90s` },
+      { ex: EX.ppp, r: '5x10 · desc 60s' },
     ];
   } else if (q.id === 3) {
-    // Advanced Tuck + Straddle intro
+    // T3 — Advanced Tuck + Straddle intro
     const advSec = 5 + Math.min(wInQ * 1.5, 20);
-    qua = [
-      { ex: EX.wrist, r: '3 min' },
-      { ex: EX.tuck, r: '4x30s (aquecimento)' },
-      { ex: EX.tuckAdv, r: `5x${Math.round(advSec)}s` },
-      { ex: EX.tuckPush, r: '4x5-7' },
-      { ex: EX.pppD, r: '4x8' },
-      ...(wInQ >= 5 ? [{ ex: EX.straddle, r: '3x3-8s (tentativas)' }] : []),
+    skillHeavy = [
+      { ex: EX.tuck, r: '3x30s (aquecimento)' },
+      { ex: EX.tuckAdv, r: `6x${Math.round(advSec)}s · desc 3min` },
+      { ex: EX.tuckPush, r: '4x5-7 · desc 2min' },
+      ...(wInQ >= 5 ? [{ ex: EX.straddle, r: '4x3-8s (tentativas)' }] : []),
     ];
-  } else {
-    // Straddle + Full Planche attempts
-    const stradSec = 3 + Math.min(wInQ, 12);
-    qua = [
-      { ex: EX.wrist, r: '3 min' },
-      { ex: EX.tuckAdv, r: '4x20s (aquecimento)' },
-      { ex: EX.straddle, r: `5x${stradSec}s` },
-      { ex: EX.straddleN, r: '4x2-3 (descida lenta)' },
+    skillLight = [
+      { ex: EX.scapPush, r: '2x12' },
+      { ex: EX.tuckAdv, r: `4x${Math.round(advSec*0.6)}s` },
+      { ex: EX.pppD, r: '3x8' },
+    ];
+    skillVolume = [
+      { ex: EX.tuck, r: '4x30s' },
+      { ex: EX.tuckAdv, r: `5x${Math.round(advSec*0.7)}s · desc 2min` },
+      { ex: EX.tuckPush, r: '5x5 · desc 90s' },
       { ex: EX.pppD, r: '4x10' },
-      ...(wInQ >= 5 ? [{ ex: EX.fullN, r: '3x1-2 tentativas' }] : []),
-      ...(wInQ >= 10 ? [{ ex: EX.fullPush, r: 'Tentativas livres' }] : []),
-    ];
-  }
-
-  // ===== MON (PUSH) =====
-  let seg;
-  if (q.id === 1) {
-    seg = [
-      { ex: EX.flex, r: `3x ${wInQ <= 5 ? 'máximo' : 'máximo +2'}` },
-      { ex: EX.flexD, r: `3x${8 + wInQ}` },
-      { ex: EX.merg, r: '3x10-12' },
-      { ex: EX.pike, r: '3x8' },
-    ];
-  } else if (q.id === 2) {
-    seg = [
-      { ex: EX.flexDec, r: '4x10-12' },
-      { ex: EX.flexD, r: '4x12' },
-      { ex: EX.pike, r: '4x10' },
-      { ex: EX.ppp, r: '3x6' },
-    ];
-  } else if (q.id === 3) {
-    seg = [
-      { ex: EX.flexDec, r: '4x15' },
-      { ex: EX.flexD, r: '4x15' },
-      { ex: EX.pike, r: '4x12' },
-      { ex: EX.pppD, r: '4x6-8' },
     ];
   } else {
-    seg = [
-      { ex: EX.flexDec, r: '4x15-20' },
-      { ex: EX.flexD, r: '4x15-20' },
-      { ex: EX.pike, r: '4x15' },
-      { ex: EX.tuckPush, r: '3x5-7' },
+    // T4 — Straddle + Full Planche attempts
+    const stradSec = 3 + Math.min(wInQ, 12);
+    skillHeavy = [
+      { ex: EX.tuckAdv, r: '3x20s (aquecimento)' },
+      { ex: EX.straddle, r: `6x${stradSec}s · desc 3-4min` },
+      { ex: EX.straddleN, r: '4x2-3 (descida 5-8s)' },
+      ...(wInQ >= 5 ? [{ ex: EX.fullN, r: '3x1-2 negativas máximas' }] : []),
+      ...(wInQ >= 10 ? [{ ex: EX.fullPush, r: 'Tentativas livres no fim' }] : []),
+    ];
+    skillLight = [
+      { ex: EX.scapPush, r: '2x12' },
+      { ex: EX.straddle, r: `4x${Math.round(stradSec*0.6)}s (sem falha)` },
+      { ex: EX.tuckPush, r: '3x6' },
+    ];
+    skillVolume = [
+      { ex: EX.tuckAdv, r: '4x20s' },
+      { ex: EX.straddle, r: `5x${Math.round(stradSec*0.7)}s · desc 2min` },
+      { ex: EX.straddleN, r: '5x2 negativas' },
+      { ex: EX.tuckPush, r: '5x6 · desc 90s' },
     ];
   }
 
-  // ===== TUE (CORE + WRIST) =====
-  let ter;
-  if (q.id === 1) {
-    ter = [
-      { ex: EX.wristProg, r: '5 min' },
-      { ex: EX.hollow, r: `3x${20 + wInQ * 2}s` },
-      { ex: EX.prancha, r: `3x${40 + wInQ * 3}s` },
-      { ex: EX.deadBug, r: '3x10' },
-      { ex: EX.mc, r: '3x30s' },
-    ];
-  } else if (q.id === 2) {
-    ter = [
-      { ex: EX.wristProg, r: '5 min' },
-      { ex: EX.hollowR, r: '4x20' },
-      { ex: EX.Lsit, r: '4x10-15s' },
-      { ex: EX.prancha, r: '3x60s' },
-      { ex: EX.mc, r: '3x40s' },
-    ];
-  } else {
-    ter = [
-      { ex: EX.wristProg, r: '5 min' },
-      { ex: EX.Lsit, r: '5x15-20s' },
-      { ex: EX.vsit, r: '4x10s' },
-      { ex: EX.hollowR, r: '4x25' },
-      { ex: EX.prancha, r: '3x60s' },
-    ];
-  }
+  // ============ STANDARD BLOCKS ============
 
-  // ===== FRI (LEGS) =====
-  const sex = q.id <= 2
-    ? [
-        { ex: EX.agach, r: '3x20' },
-        { ex: EX.afundo, r: '3x10 cada perna' },
-        { ex: EX.bulgaro, r: '3x10 cada perna' },
-        { ex: EX.ponte, r: '3x12 cada perna' },
-      ]
-    : [
-        { ex: EX.agach, r: '4x20' },
-        { ex: EX.pistolP, r: '4x5 cada perna' },
-        { ex: EX.bulgaro, r: '4x12 cada perna' },
-        { ex: EX.ponte, r: '3x15 cada perna' },
-      ];
-
-  // ===== SAT (FULL BODY / SKILL) =====
-  const sab = [
-    { ex: EX.planLean, r: '3x30s' },
-    { ex: EX.ppp, r: '3x8' },
-    { ex: EX.frog, r: '3x20s' },
-    { ex: EX.burpee, r: '3x10' },
+  // ----- MONDAY: Skill Heavy + Push -----
+  const seg = [
+    { ex: EX.wristDaily, r: '5 min (obrigatório)' },
+    ...skillHeavy,
+    // Push pesado depois do skill (skill primeiro = músculos frescos)
+    ...(q.id <= 2
+      ? [
+          { ex: EX.flexDec, r: `4x${10 + wInQ} · desc 90s` },
+          { ex: EX.merg, r: '4x10-12 · desc 90s' },
+        ]
+      : [
+          { ex: EX.flexDec, r: '4x15-20 · desc 90s' },
+          { ex: EX.mergRTO, r: '4x8-12 · desc 90s' },
+        ]),
   ];
 
-  // ===== Days array =====
+  // ----- TUESDAY: PULL DAY (essencial pra balanço!) + Core -----
+  const ter = [
+    { ex: EX.wristDaily, r: '5 min' },
+    { ex: EX.scapPull, r: '3x10 · desc 60s' },
+    ...(q.id === 1
+      ? [
+          { ex: EX.invRow, r: `4x${8 + wInQ} · desc 90s` },
+          { ex: EX.doorRow, r: '3x12 cada lado · desc 60s' },
+          { ex: EX.bicepCurl, r: '3x12 · desc 60s' },
+        ]
+      : q.id === 2
+      ? [
+          { ex: EX.invRowE, r: '5x10 · desc 90s' },
+          { ex: EX.archerRow, r: '3x6 cada lado · desc 90s' },
+          { ex: EX.bicepCurl, r: '4x12 · desc 60s' },
+          { ex: EX.tuckFLN, r: '3x3 negativas (5s descida)' },
+        ]
+      : [
+          { ex: EX.archerRow, r: '4x6 cada lado · desc 90s' },
+          { ex: EX.tuckFLN, r: '4x3-4 negativas (6-8s)' },
+          { ex: EX.bicepCurl, r: '4x15 · desc 60s' },
+        ]),
+    // Core específico pra planche
+    { ex: EX.hollow, r: `4x${30 + wInQ * 3}s · desc 60s` },
+    { ex: EX.hollowR, r: '3x20 reps' },
+    ...(q.id >= 2 ? [{ ex: EX.Lsit, r: `4x${10 + wInQ}s nos paraletes` }] : []),
+  ];
+
+  // ----- WEDNESDAY: Skill Light (técnica, alta frequência) -----
+  const qua = [
+    { ex: EX.wristDaily, r: '5 min' },
+    { ex: EX.alongShoulder, r: '5 min (mobilidade ombro)' },
+    ...skillLight,
+    { ex: EX.reverseP, r: '3x30s (anti-rotacional)' },
+    { ex: EX.yyt, r: '3x10 cada (YTW para ombros)' },
+  ];
+
+  // ----- THURSDAY: Active Recovery (mobilidade + leve cardio) -----
+  const qui = [
+    { ex: EX.wristDaily, r: '5 min (mesmo no descanso!)' },
+    { ex: EX.alongP, r: '15-20 min de mobilidade planche-específica' },
+    { ex: EX.cobra, r: '3x10 (antagonista de planche)' },
+    { ex: EX.bridgeH, r: '3x30s (peito aberto)' },
+  ];
+
+  // ----- FRIDAY: Legs (não atrofiar, força base) -----
+  const sex = [
+    { ex: EX.wristDaily, r: '5 min' },
+    ...(q.id <= 2
+      ? [
+          { ex: EX.agach, r: '4x20 · desc 60s' },
+          { ex: EX.afundo, r: '3x10 cada perna' },
+          { ex: EX.bulgaro, r: '3x10 cada perna · desc 60s' },
+          { ex: EX.ponte, r: '3x12 cada perna' },
+        ]
+      : [
+          { ex: EX.agach, r: '4x25' },
+          { ex: EX.pistolP, r: '4x5 cada perna · desc 90s' },
+          { ex: EX.bulgaro, r: '4x12 cada perna · desc 60s' },
+          { ex: EX.natural, r: '3x5 negativas' },
+        ]),
+    { ex: EX.hollow, r: '3x45s (core leve)' },
+  ];
+
+  // ----- SATURDAY: Skill Volume (sessão principal da semana) -----
+  const sab = [
+    { ex: EX.wristDaily, r: '7 min (sessão longa, aquece bem)' },
+    { ex: EX.scapPush, r: '3x12' },
+    ...skillVolume,
+    { ex: EX.arch, r: '3x30s (postura)' },
+  ];
+
+  // ----- SUNDAY: Full rest, just mobility -----
+  const dom = [
+    { ex: EX.wristStr, r: '5 min (alongamento leve)' },
+  ];
+
   return {
     n, quarter: q.id, phaseColor: q.color, phaseName: q.label,
     days: [
-      { day: 'SEG', focus: 'Push (peito/tríceps/ombro)', color: '#ef4444', exs: seg },
-      { day: 'TER', focus: 'Core + Punhos', color: '#f59e0b', exs: ter },
-      { day: 'QUA', focus: 'PLANCHE — DIA PRINCIPAL', color: q.color, isStar: true, exs: qua },
-      { day: 'QUI', focus: 'Mobilidade / Descanso ativo', color: '#10b981',
-        exs: [{ ex: EX.alongP, r: '15 min' }] },
-      { day: 'SEX', focus: 'Pernas', color: '#3b82f6', exs: sex },
-      { day: 'SAB', focus: 'Skill day (planche prática)', color: '#ec4899', exs: sab },
-      { day: 'DOM', focus: 'Descanso total', color: '#64748b', exs: [] },
+      { day: 'SEG', focus: 'Skill HEAVY + Push', color: q.color, isStar: true, exs: seg },
+      { day: 'TER', focus: 'PULL + Core (balanço de ombro)', color: '#3b82f6', exs: ter },
+      { day: 'QUA', focus: 'Skill LIGHT (técnica)', color: q.color, isStar: true, exs: qua },
+      { day: 'QUI', focus: 'Mobilidade ativa', color: '#10b981', exs: qui },
+      { day: 'SEX', focus: 'Pernas', color: '#f59e0b', exs: sex },
+      { day: 'SAB', focus: 'Skill VOLUME (sessão principal)', color: q.color, isStar: true, exs: sab },
+      { day: 'DOM', focus: 'Descanso (só punhos)', color: '#64748b', exs: dom },
     ]
   };
 }
